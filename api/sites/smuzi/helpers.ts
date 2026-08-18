@@ -1,7 +1,13 @@
 import dayjs from "dayjs";
 import customParseFormat from "dayjs/plugin/customParseFormat.js";
+import timezone from "dayjs/plugin/timezone.js";
+import utc from "dayjs/plugin/utc.js";
 
+dayjs.extend(utc);
+dayjs.extend(timezone);
 dayjs.extend(customParseFormat);
+
+const QUIZ_TIME_ZONE = "Asia/Almaty";
 
 const MONTHS: Record<string, string> = {
   января: "01",
@@ -19,7 +25,7 @@ const MONTHS: Record<string, string> = {
 };
 
 const TITLE_DATE_PATTERN =
-  /^(\d{1,2})\s+([а-яё]+)\s+\([^)]+\)\s+(\d{1,2}:\d{2})\s*/i;
+  /^(\d{1,2})\s+([а-яё]+)\s+\([^)]+\)\s+(\d{1,2}:\d{2})(?:\s+\([^)]+\))?\s*/i;
 
 export function parseSmuziDate(title: string): Date {
   const match = title.trim().match(TITLE_DATE_PATTERN);
@@ -35,11 +41,11 @@ export function parseSmuziDate(title: string): Date {
     throw new Error(`Unknown Smuzi month "${monthName}" in title: ${title}`);
   }
 
-  const year = dayjs().year();
-  const parsedDate = dayjs(
+  const year = dayjs().tz(QUIZ_TIME_ZONE).year();
+  const parsedDate = dayjs.tz(
     `${day.padStart(2, "0")}.${month}.${year} ${time}`,
     "DD.MM.YYYY HH:mm",
-    true,
+    QUIZ_TIME_ZONE,
   );
 
   if (!parsedDate.isValid()) {

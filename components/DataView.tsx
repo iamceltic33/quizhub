@@ -8,13 +8,19 @@ type QuizSectionProps = {
   items: SiteQuizInfo[];
 };
 
+const QUIZ_DATE_FORMAT = new Intl.DateTimeFormat('ru-RU', {
+  dateStyle: 'short',
+  timeStyle: 'short',
+  timeZone: 'Asia/Almaty',
+});
+
 function QuizCard({ item }: { item: SiteQuizInfo }) {
   return (
     <article className="group rounded-lg border border-slate-200 bg-white p-4 shadow-sm transition duration-200 hover:-translate-y-0.5 hover:border-teal-200 hover:shadow-md">
       <div className="flex flex-col gap-3 sm:flex-row sm:items-start sm:justify-between">
         <div className="min-w-0 space-y-2">
           <p className="text-xs font-semibold uppercase tracking-[0.18em] text-slate-500">
-            {(new Date(item.dateTime)).toLocaleString('ru-RU')}
+            {QUIZ_DATE_FORMAT.format(new Date(item.dateTime))}
           </p>
           <h3 className="text-base font-semibold leading-snug text-slate-950">
             {item.info}
