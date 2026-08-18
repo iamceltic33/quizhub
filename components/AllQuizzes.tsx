@@ -1,8 +1,8 @@
 import { getQuizPlease, getShaker, getSmuzi } from "@/api/sites";
-import { DataView } from "./DataView";
+import { DataView, type ViewMode } from "./DataView";
 import { getMohito } from "@/api/sites/mohito";
 
-export async function AllQuizzes() {
+export async function AllQuizzes(props: { initialViewMode: ViewMode }) {
     const [quizPlease, shaker, smuzi, mohito] = await Promise.all([
         getQuizPlease(),
         getShaker(),
@@ -10,5 +10,10 @@ export async function AllQuizzes() {
         getMohito()
     ]);
 
-    return <DataView data={{ quizPlease, shaker, smuzi, mohito }}/>
+    return (
+        <DataView
+            data={{ quizPlease, shaker, smuzi, mohito }}
+            initialViewMode={props.initialViewMode}
+        />
+    )
 }

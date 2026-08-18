@@ -3,5 +3,5 @@ export type SiteQuizInfo = {
     info: string,
     additionalInfo?: string
 }
-
-export type ApiResponse = Record<'shaker' | 'mohito' | 'quizPlease' | 'smuzi', SiteQuizInfo[] >
+export type QuizType = 'shaker' | 'mohito' | 'quizPlease' | 'smuzi';
+export type ApiResponse = Record<QuizType, SiteQuizInfo[] >
