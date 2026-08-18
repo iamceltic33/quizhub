@@ -23,12 +23,40 @@ const WEEK_DAYS = ['Пн', 'Вт', 'Ср', 'Чт', 'Пт', 'Сб', 'Вс'];
 const QUIZ_TIME_ZONE = 'Asia/Almaty';
 const CALENDAR_WEEK_COUNT = 6;
 
-const QUIZ_TYPE_STYLES: Record<QuizType, string> = {
-  quizPlease: 'border-teal-200 bg-teal-50 text-teal-900',
-  shaker: 'border-amber-200 bg-amber-50 text-amber-900',
-  smuzi: 'border-indigo-200 bg-indigo-50 text-indigo-900',
-  mohito: 'border-emerald-200 bg-emerald-50 text-emerald-900',
-};
+const QUIZ_TYPE_META: {
+  label: string;
+  type: QuizType;
+  className: string;
+}[] = [
+  {
+    label: 'Квиз Плиз',
+    type: 'quizPlease',
+    className: 'border-teal-200 bg-teal-50 text-teal-900',
+  },
+  {
+    label: 'Шейкер',
+    type: 'shaker',
+    className: 'border-amber-200 bg-amber-50 text-amber-900',
+  },
+  {
+    label: 'Смузи',
+    type: 'smuzi',
+    className: 'border-indigo-200 bg-indigo-50 text-indigo-900',
+  },
+  {
+    label: 'Мохито',
+    type: 'mohito',
+    className: 'border-emerald-200 bg-emerald-50 text-emerald-900',
+  },
+];
+
+const QUIZ_TYPE_STYLES = QUIZ_TYPE_META.reduce(
+  (styles, item) => ({
+    ...styles,
+    [item.type]: item.className,
+  }),
+  {} as Record<QuizType, string>,
+);
 
 const DAY_KEY_FORMATTER = new Intl.DateTimeFormat('en-CA', {
   day: '2-digit',
@@ -89,6 +117,21 @@ function CalendarCell({ day }: CalendarCellProps) {
   );
 }
 
+function CalendarLegend() {
+  return (
+    <div className="flex flex-wrap gap-2 border-b border-slate-200 px-4 py-3 sm:px-5">
+      {QUIZ_TYPE_META.map((item) => (
+        <div
+          key={item.type}
+          className={`rounded-full border px-3 py-1 text-xs font-semibold ${item.className}`}
+        >
+          {item.label}
+        </div>
+      ))}
+    </div>
+  );
+}
+
 export function CalendarView(props: { data: ApiResponse }) {
   const calendarWeeks = createCalendarWeeks(props.data);
 
@@ -100,6 +143,8 @@ export function CalendarView(props: { data: ApiResponse }) {
             Календарь игр
           </h2>
         </div>
+
+        <CalendarLegend />
 
         <div className="grid grid-cols-7 border-b border-slate-200 bg-slate-50">
           {WEEK_DAYS.map((day) => (
