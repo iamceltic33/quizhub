@@ -4,8 +4,4 @@ export type SiteQuizInfo = {
     additionalInfo?: string
 }
 
-export type ApiResponse = {
-    shaker: SiteQuizInfo[],
-    quizPlease: SiteQuizInfo[],
-    smuzi: SiteQuizInfo[]
-}
+export type ApiResponse = Record<'shaker' | 'mohito' | 'quizPlease' | 'smuzi', SiteQuizInfo[] >

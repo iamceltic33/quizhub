@@ -1,10 +1,9 @@
 'use client';
 import { ApiResponse, SiteQuizInfo } from '@/types';
+import { useState } from 'react';
 
 type QuizSectionProps = {
   title: string;
-  subtitle: string;
-  accent: string;
   items: SiteQuizInfo[];
 };
 
@@ -37,32 +36,49 @@ function QuizCard({ item }: { item: SiteQuizInfo }) {
   );
 }
 
-function QuizSection({ title, subtitle, accent, items }: QuizSectionProps) {
+function QuizSection({ title, items }: QuizSectionProps) {
+  const [isOpen, setIsOpen] = useState(true);
+
   return (
-    <section className="space-y-4">
-      <div className="flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between">
-        <div>
-          <div className={`mb-3 h-1.5 w-16 rounded-full ${accent}`} />
-          <h2 className="text-2xl font-bold tracking-tight text-slate-950">
+    <section className="overflow-hidden rounded-lg border border-slate-200 bg-white shadow-sm">
+      <button
+        type="button"
+        aria-expanded={isOpen}
+        onClick={() => setIsOpen((currentValue) => !currentValue)}
+        className="flex cursor-pointer w-full items-center justify-between gap-4 px-4 py-4 text-left transition hover:bg-slate-50 sm:px-5"
+      >
+        <span className="flex min-w-0 items-center gap-3">
+          <span
+            className={`h-2.5 w-2.5 shrink-0 rounded-full ${
+              isOpen ? 'bg-teal-500' : 'bg-slate-300'
+            }`}
+          />
+          <h2 className="truncate text-lg font-bold tracking-tight text-slate-950 sm:text-xl">
             {title}
           </h2>
-          <p className="mt-1 text-sm text-slate-500">{subtitle}</p>
-        </div>
+        </span>
 
-        <div className="w-fit rounded-full bg-slate-900 px-3 py-1 text-sm font-semibold text-white">
+        <span className="shrink-0 rounded-full bg-slate-900 px-3 py-1 text-sm font-semibold text-white">
           {items.length} игр
-        </div>
-      </div>
+        </span>
+      </button>
 
-      {items.length > 0 ? (
-        <div className="grid gap-3">
-          {items.map((item, index) => (
-            <QuizCard key={`${title}-${item.dateTime}-${index}`} item={item} />
-          ))}
-        </div>
-      ) : (
-        <div className="rounded-lg border border-dashed border-slate-300 bg-white/70 px-5 py-8 text-center text-sm font-medium text-slate-500">
-          Пока нет ближайших игр
+      {isOpen && (
+        <div className="border-t border-slate-200 bg-slate-50/70 p-3 sm:p-4">
+          {items.length > 0 ? (
+            <div className="grid gap-3">
+              {items.map((item, index) => (
+                <QuizCard
+                  key={`${title}-${item.dateTime}-${index}`}
+                  item={item}
+                />
+              ))}
+            </div>
+          ) : (
+            <div className="rounded-lg border border-dashed border-slate-300 bg-white/70 px-5 py-8 text-center text-sm font-medium text-slate-500">
+              Пока нет ближайших игр
+            </div>
+          )}
         </div>
       )}
     </section>
@@ -86,21 +102,20 @@ export function DataView(props: { data?: ApiResponse }) {
     <main className="mx-auto grid w-full max-w-6xl gap-10 px-4 py-8 sm:px-6 lg:px-8">
       <QuizSection
         title="Quiz Please"
-        subtitle="Ближайшие игры от Quiz Please"
-        accent="bg-teal-500"
         items={data.quizPlease}
       />
       <QuizSection
         title="Shaker"
-        subtitle="Свежие события от Shaker Quiz"
-        accent="bg-amber-400"
         items={data.shaker}
       />
       <QuizSection
         title="Smuzi"
-        subtitle="Свежие события от Smuzi Quiz"
-        accent="bg-indigo-900"
         items={data.smuzi}
+      />
+
+      <QuizSection
+        title="Mohito"
+        items={data.mohito}
       />
     </main>
   );

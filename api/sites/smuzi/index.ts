@@ -1,11 +1,11 @@
 import axios from "axios";
-import { type SmuziResponse } from "./smuzi.types";
+import { type SmuziQuizStoreResponse } from "../tilda.types";
 import type { SiteQuizInfo } from "@/types";
 import { parseSmuziDate, removeSmuziDateFromTitle } from "./helpers";
 
 export async function getSmuzi() {
     const url = 'https://store.tildaapi.com/api/getproductslist/?storepartuid=360617813911&recid=635297893&c=1787036894178&getparts=true&getoptions=true&slice=1&size=36&flag_root=withroot';
-    const { data } = await axios<SmuziResponse>(url, {
+    const { data } = await axios<SmuziQuizStoreResponse>(url, {
         headers: { "User-Agent": "Mozilla/5.0" },
     })
     const returnData: SiteQuizInfo[] = [];
