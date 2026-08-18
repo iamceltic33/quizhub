@@ -90,6 +90,12 @@ export function DataView(props: { data?: ApiResponse }) {
         accent="bg-amber-400"
         items={data.shaker}
       />
+      <QuizSection
+        title="Smuzi"
+        subtitle="Свежие события от Smuzi Quiz"
+        accent="bg-indigo-900"
+        items={data.smuzi}
+      />
     </main>
   );
 }

@@ -6,5 +6,6 @@ export type SiteQuizInfo = {
 
 export type ApiResponse = {
     shaker: SiteQuizInfo[],
-    quizPlease: SiteQuizInfo[]
+    quizPlease: SiteQuizInfo[],
+    smuzi: SiteQuizInfo[]
 }

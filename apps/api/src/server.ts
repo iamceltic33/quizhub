@@ -2,7 +2,7 @@ import bodyParser from "body-parser";
 import express, { type Express } from "express";
 import morgan from "morgan";
 import cors from "cors";
-import { getQuizPlease, getShaker } from './parsers/sites'
+import { getQuizPlease, getShaker, getSmuzi } from './parsers/sites'
 
 const { json, urlencoded } = bodyParser;
 
@@ -17,8 +17,9 @@ export const createServer = (): Express => {
     .get("/all", async (req, res) => {
       const quizPlease = await getQuizPlease();
       const shaker = await getShaker();
+      const smuzi = await getSmuzi();
       res.send({ data: {
-        quizPlease, shaker
+        quizPlease, shaker, smuzi
       } })
     })
 
