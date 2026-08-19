@@ -22,7 +22,7 @@ export async function getQuizPlease(): Promise<SiteQuizInfo[]> {
         const dateTime = dayjs.tz(item.date.trim(), 'DD.MM.YYYY HH:mm', QUIZ_TIME_ZONE);
         return {
             dateTime: dateTime.toISOString(),
-            info: item.block_with_text
+            info: item.welcome_inscription
         }
     })
 }

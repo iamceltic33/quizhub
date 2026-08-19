@@ -31,7 +31,7 @@ const QUIZ_TYPE_META: {
   {
     label: 'Квиз Плиз',
     type: 'quizPlease',
-    className: 'border-teal-200 bg-teal-50 text-teal-900',
+    className: 'border-rose-200 bg-rose-50 text-rose-900',
   },
   {
     label: 'Шейкер',
